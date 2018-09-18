@@ -7,12 +7,28 @@
 //
 
 import UIKit
+import WebKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var webView: WKWebView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let url = URL(string: "http://qualitiva.id/page/login")
+        if let unwrappedURL = url {
+            let req = URLRequest(url: unwrappedURL)
+            let ses = URLSession.shared
+            let task = ses.dataTask(with: req) { (data, response, error) in
+                if error == nil {
+                    self.webView.load(_:req)
+                } else {
+                    print("Error : \(String(describing: error))")
+                }
+            }
+            task.resume()
+        }
     }
 
     override func didReceiveMemoryWarning() {
